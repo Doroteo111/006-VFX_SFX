@@ -9,9 +9,20 @@ public class SpawnManager : MonoBehaviour
     private float startDelay = 2f; //la primera llamada
     private float repeatRate = 3f; //entre llamadas
 
+    private PlayerControler playerControllerScript;
+
     private void Start()
     {
+        playerControllerScript = FindObjectOfType<PlayerControler>(); 
         InvokeRepeating("SpawnObstacle", startDelay, repeatRate);
+    }
+
+    private void Update()
+    {
+        if (playerControllerScript.gameOver) //a la que muero, el spawn para de generar
+        {
+            CancelInvoke("SpawnObstacle");
+        }
     }
     private void SpawnObstacle()
     {
