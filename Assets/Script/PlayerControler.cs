@@ -9,21 +9,21 @@ public class PlayerControler : MonoBehaviour
     private bool isOnTheGround = true; //cuando toque el suelo
     public bool gameOver; //es publico para que sea visuble para los otros scripts
 
-    private Animator _animator; // la "_" privada de la propia variable
+    private Animator _animator; //acceso = la "_" privada de la propia variable *
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
-        _animator = GetComponent<Animator>();
+        _animator = GetComponent<Animator>(); //dar valor a la variable creada *
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space)&& isOnTheGround && !gameOver) //salto con el espacio y no podré saltar si es gameover
+        if (Input.GetKeyDown(KeyCode.Space)&& isOnTheGround && !gameOver) //salto con el espacio y no podré saltar si es gameover(MUERTO)
         {
-            isOnTheGround = false;//si salto cambiar el valor del booleano para que sea false para no poder saltar otra vez
+            isOnTheGround = false;// dejo de tocar el suelo, si salto cambiar el valor del booleano para que sea false para no poder saltar otra vez
             _rigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);//la 1ra una fuerza constante, la 2a solo un empujón
 
-            _animator.SetTrigger("Jump_trig");
+            _animator.SetTrigger("Jump_trig"); //llamar al trigger, para que pase la transición a otra animación la de salto*
         }
     } 
 
@@ -31,13 +31,20 @@ public class PlayerControler : MonoBehaviour
     {
         if (otherCollider.gameObject.CompareTag("Obstacle"))
         {
-            gameOver = true;
+            /*gameOver = true;*/ //sustituimos
+            GameOver();
         }else if (otherCollider.gameObject.CompareTag("Ground"))
         {
             isOnTheGround = true;
         }
-
-
       
+    }
+
+    private void GameOver()
+    {
+        gameOver = true;
+        _animator.SetBool("Death_b", true); //parametro a modificar,y el valor por el cual quieres modificarlo (true)
+        _animator.SetInteger("DeathType", Random.Range(1,3));//se ejecuta la aniamción 1 + muertes aleatorias (poner 3 para incluir el 2)
+        
     }
 }
