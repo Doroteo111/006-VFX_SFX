@@ -18,7 +18,7 @@ public class MoveLeft : MonoBehaviour
     {
         if (!playerControllerScript.gameOver)//!niegas, si no gameover, es verdadera la condicion y quiero movimeinto
         { 
-            transform.Translate(Vector3.left * Time.deltaTime * speed); 
+            transform.Translate(Vector3.left * Time.deltaTime * speed,Space.World); //mover en global
         }
        
         if(transform.position.x < leftBound && gameObject.CompareTag("Obstacle"))//si supera el límite, caja destruida,,, uso de etiqwuetas

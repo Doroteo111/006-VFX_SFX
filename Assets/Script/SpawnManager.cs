@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class SpawnManager : MonoBehaviour
 {
-    public GameObject obstaclePrefab; //HACER APARECER LOS OBSTACULOS
+    public GameObject[] obstaclePrefab; //HACER APARECER LOS OBSTACULOS **ejercico extra ahora será array multiples objetos
 
     private float startDelay = 2f; //la primera llamada
     private float repeatRate = 3f; //entre llamadas
@@ -30,7 +31,9 @@ public class SpawnManager : MonoBehaviour
     }
     private void SpawnObstacle()
     {
-        Instantiate(obstaclePrefab, transform.position, obstaclePrefab.transform.rotation); // QUE, DONDE, COMO
+        int randomIdx = Random.Range(0, obstaclePrefab.Length); //número de elementos de la list prefabs
+        Instantiate(obstaclePrefab[randomIdx], transform.position, obstaclePrefab[randomIdx].transform.rotation); 
+        // QUE, DONDE, COMO  **el trasnform no puede ir con array, entonces indicamos que queremos el objeto que afecte al trasnform
     }
 
   

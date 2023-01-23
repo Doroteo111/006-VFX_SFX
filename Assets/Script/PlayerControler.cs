@@ -12,10 +12,16 @@ public class PlayerControler : MonoBehaviour
 
     public ParticleSystem explosionParticle;
     public ParticleSystem dirtParticle;
+
+    public AudioClip[] jumpSounds; //array
+    public AudioClip[] crashSounds;
+    private AudioSource _audioSourse;
+
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
         _animator = GetComponent<Animator>(); //dar valor a la variable creada *
+        _audioSourse = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -49,6 +55,7 @@ public class PlayerControler : MonoBehaviour
 
         explosionParticle.Play(); //activar el sistema de particulas al morir
         dirtParticle.Stop();
+        ChooseRandomSFX(crashSounds);
     }
 
     private void Jump()
@@ -60,7 +67,15 @@ public class PlayerControler : MonoBehaviour
 
         _animator.SetTrigger("Jump_trig"); //llamar al trigger, para que pase la transición a otra animación la de salto*
 
-        dirtParticle.Stop();
+        dirtParticle.Stop(); //particuas
+        ChooseRandomSFX(jumpSounds);
+        
+
+    }
+    private void ChooseRandomSFX(AudioClip[] sounds) //va a llamar al array según que acción
+    {
+        int randomIdx = Random.Range(0, sounds.Length);//índice aleatorio* 
+        _audioSourse.PlayOneShot(sounds[randomIdx], 1); //array y, volumen al saltar
 
     }
 }
